@@ -6,9 +6,7 @@ import std.conv;
 
 void main(string[] argv) {
     if(argv.length==1) {
-        stdout.writeln(" roll: un lanzador de dados minimalista");
-        stdout.writeln(" Uso: roll [<n>{a|d}<dado>[+{<n>{a|d}<dado>|modificador}]+]+");
-
+        help();
         return;
     }
     if(argv[1] == "-test") {
@@ -17,10 +15,23 @@ void main(string[] argv) {
         }
         return;
     }
-    foreach(arg; argv[1..$]) {
-        int val = parse(arg);
-        stdout.writeln(arg, "\t => \t",val);
+    try {
+        foreach(arg; argv[1..$]) {
+            int val = parse(arg);
+            stdout.writeln(arg, "\t => \t",val);
+        }
+    } 
+    catch(Throwable e) {
+        stdout.writeln(" (!) Error: argumentos incorrectos.");
+        help();
     }
+}
+
+void help() {
+    stdout.writeln(" roll: un lanzador de dados minimalista");
+    stdout.writeln(" Uso: roll [<n>{a|d}<dado>[+{<n>{a|d}<dado>|modificador}]+]+");
+
+    return;
 }
 
 int roll(int d, bool ace = false) {
